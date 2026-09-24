@@ -1,0 +1,7 @@
+# Optional. Only needed for the Gymnasium adapter (rebook.env.gym_env) and
+# its tests. The core environment and grader do not import this file.
+# Install with: make setup-gym
+gymnasium==1.1.1
+numpy==2.0.2
+cloudpickle==3.1.2
+Farama-Notifications==0.0.6

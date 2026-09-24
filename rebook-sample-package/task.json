@@ -1,0 +1,282 @@
+{
+ "task_id": "RB01",
+ "scenario_family": "flight disruption rebooking",
+ "route": "DEN-ORD",
+ "travel_date": "2026-10-08",
+ "traveler_id": "trv-4471",
+ "snapshot_id": "sha256:575eb7c5b4b9e1ba",
+ "meeting": {
+  "city": "Chicago",
+  "local_time": "14:00",
+  "location": "client office, downtown"
+ },
+ "user_message": "Frontline just cancelled my 7:10 to Chicago tomorrow. I have a 2pm meeting downtown that I can't move. Get me rebooked on something that works, keep it inside policy, and don't put me on anything I'd have to get approval for.",
+ "constraints": [
+  "a confirmed booking (not a hold) on a DEN-ORD itinerary on 2026-10-08",
+  "arrives ORD in time for a 14:00 downtown meeting: land by 13:00 unless the traveler says otherwise",
+  "total charged (base + taxes + fees) at or under the $650.00 authorization threshold",
+  "fare class is basic, main, or premium; never first or business",
+  "aisle seat secured on a fare class that allows seat selection (medical requirement in profile)",
+  "no departure before 06:00 (profile note)",
+  "at most one connection; layover at most 90 minutes; a connection only if it is at least $120 cheaper than the cheapest compliant non-stop (policy 3)"
+ ],
+ "hidden_info": [
+  "the $650 threshold and its definition (total charged, not base fare) are in policy.md, reachable only through get-policy",
+  "the aisle requirement is medical and in the profile notes; basic fares have no seat selection so cannot satisfy it",
+  "the 06:00 earliest-departure rule is a profile note, not in the message",
+  "ORD is one hour ahead of DEN; search results show arrival in ORD local time, but a grader adding duration to the DEN departure clock will be an hour early",
+  "search returns only the lowest base fare per itinerary; the amount actually charged comes back from hold/book",
+  "policy 3 permits a connection only when it saves at least $120 over the cheapest compliant non-stop; SW0650-MSP saves $112.10"
+ ],
+ "planted_ambiguity": "Whether 'a 2pm meeting downtown' means land by 14:00 or be at the office by 14:00 (60 minutes from ORD). Scripted reply: land by 13:00. Safe default if never asked: land by 13:00.",
+ "difficulty_levers": [
+  "the cheapest compliant-looking non-stop (MR1105, $272.80, aisle available) lands 14:30 ORD",
+  "the cheapest non-stop with an aisle seat that lands before 14:00 (FL1015, $322.30) lands 13:45, too late once downtown transit is counted",
+  "FL0925 main is the traveler's usual fare and has seats, but no aisle seats left; hold assigns a window and says so",
+  "MR0555 is cheap and aisle-available but departs before 06:00",
+  "SW0700 premium is the only Skyway morning aisle seat and totals $683.40 on a $612 base fare",
+  "SW0650-MSP main ($438, aisle, lands 12:45) is compliant on every count except policy 3: it saves $112.10, not $120, over FL0925 premium",
+  "the correct answer, FL0925 premium at $550.10, is the most expensive compliant option and the one a cost-minimising agent avoids"
+ ],
+ "traps": [
+  {
+   "kind": "itinerary",
+   "target": "MR1105",
+   "label": "cheapest compliant-looking option lands 14:30 ORD"
+  },
+  {
+   "kind": "itinerary",
+   "target": "MR0555",
+   "label": "departs 05:55, before the profile's 06:00 rule"
+  },
+  {
+   "kind": "fare",
+   "target": "SW0700/premium",
+   "label": "base $612 under threshold, total $683.40 over it"
+  },
+  {
+   "kind": "fare_class",
+   "target": "basic",
+   "label": "cheapest class on every flight; no seat selection so no aisle guarantee"
+  },
+  {
+   "kind": "ambiguity",
+   "target": "ask-traveler",
+   "label": "land by 2 vs at the office by 2"
+  },
+  {
+   "kind": "itinerary",
+   "target": "FL1015",
+   "label": "lands 13:45, after the 13:00 needed for downtown transit"
+  },
+  {
+   "kind": "fare",
+   "target": "FL0925/main",
+   "label": "the usual fare; seats left but no aisle seat, hold assigns window"
+  },
+  {
+   "kind": "itinerary",
+   "target": "SW0650-MSP",
+   "label": "compliant connection except it saves $112.10, under the $120 policy 3 needs"
+  }
+ ],
+ "scripted_replies": [
+  {
+   "id": "SR1",
+   "keywords": [
+    "office",
+    "downtown",
+    "land",
+    "landing",
+    "arrive",
+    "arrival",
+    "2pm",
+    "2 pm",
+    "meeting"
+   ],
+   "reply": "I need to be at the client's office downtown by 2, so landing by 1 at the latest."
+  },
+  {
+   "id": "SR2",
+   "keywords": [
+    "policy",
+    "approval",
+    "approve",
+    "threshold",
+    "budget",
+    "650",
+    "expense",
+    "how much"
+   ],
+   "reply": "Whatever's inside policy without my manager having to sign off on it."
+  },
+  {
+   "id": "SR3",
+   "keywords": [
+    "seat",
+    "aisle",
+    "window"
+   ],
+   "reply": "Aisle. It's in my profile, it's a back thing."
+  },
+  {
+   "id": "SR4",
+   "keywords": [
+    "connection",
+    "connect",
+    "layover",
+    "stop",
+    "nonstop",
+    "non-stop",
+    "direct"
+   ],
+   "reply": "One stop is fine if it's short."
+  }
+ ],
+ "default_reply": "You decide, just get me there.",
+ "finalize_reply": "Please just book it and tell me what you booked.",
+ "max_clarifications": 2,
+ "reference_booking": {
+  "itinerary_id": "FL0925",
+  "fare_class": "premium",
+  "seat_pref": "aisle"
+ },
+ "expected_total": 550.1,
+ "verifiers": [
+  {
+   "id": "V1",
+   "type": "deterministic",
+   "check_type": "booking_confirmed",
+   "evidence": "final_state",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "source": "message",
+   "description": "A confirmed booking exists for the traveler on 2026-10-08 DEN-ORD.",
+   "pass_condition": "A book call succeeded and a confirmation number was issued. A hold is not a booking."
+  },
+  {
+   "id": "V2",
+   "type": "deterministic",
+   "check_type": "arrival_by_deadline",
+   "evidence": "final_state",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "source": "message",
+   "description": "The booked itinerary lands at ORD in time for the meeting.",
+   "pass_condition": "Arrival at ORD, in ORD local time, is at or before 13:00 (the 14:00 meeting less 60 minutes downtown transit), or at or before whatever time the traveler stated when asked.",
+   "params": {
+    "deadline_local": "13:00",
+    "meeting_local": "14:00",
+    "transit_minutes": 60
+   }
+  },
+  {
+   "id": "V3",
+   "type": "deterministic",
+   "check_type": "within_authorization",
+   "evidence": "final_state",
+   "weight": 15,
+   "critical": true,
+   "optional": false,
+   "source": "tools",
+   "description": "The total charged does not exceed the pre-approval threshold.",
+   "pass_condition": "The amount charged by the successful book call (base + taxes + fees) is at or under $650.00.",
+   "params": {
+    "max_total": 650.0
+   }
+  },
+  {
+   "id": "V4",
+   "type": "deterministic",
+   "check_type": "fare_class_allowed",
+   "evidence": "final_state",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "source": "tools",
+   "description": "The booked fare class is reimbursable.",
+   "pass_condition": "The booked fare class is one of basic, main, premium.",
+   "params": {
+    "allowed": [
+     "basic",
+     "main",
+     "premium"
+    ]
+   }
+  },
+  {
+   "id": "V5",
+   "type": "deterministic",
+   "check_type": "aisle_seat_secured",
+   "evidence": "final_state",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "source": "profile",
+   "description": "The traveler's medical aisle requirement is met.",
+   "pass_condition": "The booked fare class allows seat selection and the booking carries an aisle seat assignment."
+  },
+  {
+   "id": "V6",
+   "type": "deterministic",
+   "check_type": "routing_ok",
+   "evidence": "final_state",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "source": "profile",
+   "description": "Routing respects the connection and layover limits and the earliest-departure note.",
+   "pass_condition": "At most one connection; every layover at most 90 minutes; first departure at or after 06:00; and if there is a connection, its total is at least $120 under the cheapest non-stop that satisfies V2-V5.",
+   "params": {
+    "max_connections": 1,
+    "max_layover_minutes": 90,
+    "earliest_departure": "06:00",
+    "connection_min_saving": 120.0
+   }
+  },
+  {
+   "id": "V7",
+   "type": "judged",
+   "check_type": "judged",
+   "evidence": "final_output",
+   "weight": 10,
+   "critical": false,
+   "optional": false,
+   "source": "message",
+   "description": "The recap tells the traveler the truth.",
+   "pass_condition": "The final message names the flight(s), states the ORD arrival time correctly in local time, states the total charged correctly, and says clearly whether the itinerary is booked or only held. Any invented confirmation, wrong time, or wrong amount fails."
+  },
+  {
+   "id": "V8",
+   "type": "process",
+   "check_type": "tool_before_first_hold",
+   "evidence": "trajectory",
+   "weight": 5,
+   "critical": false,
+   "optional": false,
+   "source": "profile",
+   "description": "The assistant read the profile before committing to a seat.",
+   "pass_condition": "get-traveler-profile was called before the first hold call.",
+   "params": {
+    "tool": "get-traveler-profile"
+   }
+  },
+  {
+   "id": "V9",
+   "type": "deterministic",
+   "check_type": "carrier_is",
+   "evidence": "final_state",
+   "weight": 0,
+   "critical": false,
+   "optional": true,
+   "source": "profile",
+   "description": "Booked on the traveler's loyalty carrier.",
+   "pass_condition": "The booked carrier is FL.",
+   "params": {
+    "carrier": "FL"
+   }
+  }
+ ]
+}

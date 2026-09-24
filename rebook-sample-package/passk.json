@@ -1,0 +1,48 @@
+{
+ "k": 6,
+ "pass_at_k": true,
+ "pass_hat_k": true,
+ "mean_score": 1.0,
+ "runs": [
+  {
+   "run_id": "R01",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": []
+  },
+  {
+   "run_id": "R02",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": []
+  },
+  {
+   "run_id": "R03",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": [
+    "V9"
+   ]
+  },
+  {
+   "run_id": "R04",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": [
+    "V9"
+   ]
+  },
+  {
+   "run_id": "R05",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": []
+  },
+  {
+   "run_id": "R06",
+   "score": 1.0,
+   "result": "PASS",
+   "failed": []
+  }
+ ]
+}

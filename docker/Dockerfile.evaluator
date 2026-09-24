@@ -1,0 +1,21 @@
+# Evaluator image: holds the private grading data (fixture, task, policy,
+# grader/verifiers) and serves the eight tools over HTTP. Nothing in this
+# image is copied into Dockerfile.agent — that separation is the privacy
+# boundary the client asked for, not just a network firewall rule.
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# No third-party runtime deps: rebook/server.py is stdlib-only.
+COPY rebook/ ./rebook/
+COPY rebook-sample-package/ ./rebook-sample-package/
+
+RUN useradd --create-home --uid 10001 evaluator \
+    && chown -R evaluator:evaluator /app
+USER evaluator
+
+EXPOSE 8000
+# Bind 0.0.0.0 inside the container is fine: docker-compose does not publish
+# this port to the host, so it is only reachable from other containers on
+# the same compose network (i.e. the agent service).
+CMD ["python", "-m", "rebook.server", "--host", "0.0.0.0", "--port", "8000"]

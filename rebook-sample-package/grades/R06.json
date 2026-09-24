@@ -1,0 +1,106 @@
+{
+ "run_id": "R06",
+ "task_id": "RB01",
+ "snapshot_id": "sha256:575eb7c5b4b9e1ba",
+ "verifiers": [
+  {
+   "id": "V1",
+   "type": "deterministic",
+   "check_type": "booking_confirmed",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "booked RFBAD7 on FL1015"
+  },
+  {
+   "id": "V2",
+   "type": "deterministic",
+   "check_type": "arrival_by_deadline",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "FL1015 departs 10:15 + 150 min = 12:45 vs meeting 14:00"
+  },
+  {
+   "id": "V3",
+   "type": "deterministic",
+   "check_type": "within_authorization",
+   "weight": 15,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "FL1015 fare $198.0 vs max $650.0"
+  },
+  {
+   "id": "V4",
+   "type": "deterministic",
+   "check_type": "fare_class_allowed",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "fare class main"
+  },
+  {
+   "id": "V5",
+   "type": "deterministic",
+   "check_type": "aisle_seat_secured",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "hold requested seat_pref=aisle on FL0925"
+  },
+  {
+   "id": "V6",
+   "type": "deterministic",
+   "check_type": "routing_ok",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "FL1015 has 0 connection(s)"
+  },
+  {
+   "id": "V7",
+   "type": "judged",
+   "check_type": "judged",
+   "weight": 10,
+   "critical": false,
+   "optional": false,
+   "pass": true,
+   "evidence": "The message correctly names FL 1015, states ORD arrival at 1:45pm local matching arr_local 13:45, charges $322.30 matching total_charged, and clearly states it is booked.",
+   "votes": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "id": "V8",
+   "type": "process",
+   "check_type": "tool_before_first_hold",
+   "weight": 5,
+   "critical": false,
+   "optional": false,
+   "pass": true,
+   "evidence": "get-traveler-profile was called before the first hold"
+  },
+  {
+   "id": "V9",
+   "type": "deterministic",
+   "check_type": "carrier_is",
+   "weight": 0,
+   "critical": false,
+   "optional": true,
+   "pass": true,
+   "evidence": "FL1015 is FL"
+  }
+ ],
+ "score": 1.0,
+ "critical_fail": false,
+ "result": "PASS",
+ "failed": []
+}

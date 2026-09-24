@@ -1,0 +1,538 @@
+{
+ "meta": {
+  "snapshot_id": "sha256:575eb7c5b4b9e1ba",
+  "route": "DEN-ORD",
+  "travel_date": "2026-10-08",
+  "captured_at": "2026-10-07T16:00:00-06:00",
+  "notes": "All departure times are local to the departure airport. All arrival times are local to the arrival airport. Durations are block minutes."
+ },
+ "airports": {
+  "DEN": {
+   "name": "Denver International",
+   "tz": "America/Denver",
+   "utc_offset_hours": -6,
+   "minutes_to_downtown": 40
+  },
+  "ORD": {
+   "name": "Chicago O'Hare",
+   "tz": "America/Chicago",
+   "utc_offset_hours": -5,
+   "minutes_to_downtown": 60
+  },
+  "MSP": {
+   "name": "Minneapolis-St Paul",
+   "tz": "America/Chicago",
+   "utc_offset_hours": -5,
+   "minutes_to_downtown": 30
+  },
+  "DFW": {
+   "name": "Dallas-Fort Worth",
+   "tz": "America/Chicago",
+   "utc_offset_hours": -5,
+   "minutes_to_downtown": 35
+  }
+ },
+ "carriers": {
+  "FL": {
+   "name": "Frontline Air",
+   "loyalty_program": "Frontline Miles"
+  },
+  "SW": {
+   "name": "Skyway",
+   "loyalty_program": "Skyway Rewards"
+  },
+  "MR": {
+   "name": "Meridian",
+   "loyalty_program": "Meridian Club"
+  }
+ },
+ "traveler": {
+  "id": "trv-4471",
+  "name": "Priya Raman",
+  "home_airport": "DEN",
+  "employer": "Halcyon Analytics",
+  "cost_center": "CC-3310",
+  "loyalty": [
+   {
+    "carrier": "FL",
+    "tier": "Gold",
+    "number": "FL-88213904"
+   }
+  ],
+  "seat_preference": "aisle",
+  "notes": [
+   "Aisle seat is a medical requirement (lumbar), not a preference. Cannot sit in a middle or window seat on flights over 90 minutes.",
+   "No departures before 06:00; school drop-off.",
+   "Prefers Frontline for miles but will fly anyone if it gets her there."
+  ],
+  "upcoming": [
+   {
+    "pnr": "Q7XK2M",
+    "flight": "FL0710",
+    "date": "2026-10-08",
+    "status": "cancelled_by_carrier",
+    "fare_class": "main",
+    "paid_total": 297.4
+   }
+  ],
+  "past_bookings": [
+   {
+    "pnr": "M2ZR9F",
+    "flight": "FL0925",
+    "date": "2026-08-12",
+    "fare_class": "main",
+    "paid_total": 340.1
+   },
+   {
+    "pnr": "H8QT1L",
+    "flight": "FL1530",
+    "date": "2026-06-03",
+    "fare_class": "main",
+    "paid_total": 288.6
+   }
+  ]
+ },
+ "policy_doc": "policy.md",
+ "rules": {
+  "authorization_threshold_total": 650.0,
+  "allowed_fare_classes": [
+   "basic",
+   "main",
+   "premium"
+  ],
+  "max_connections": 1,
+  "max_layover_minutes": 90,
+  "hold_minutes": 30
+ },
+ "flights": [
+  {
+   "id": "FL0710",
+   "carrier": "FL",
+   "status": "cancelled",
+   "legs": [
+    {
+     "flight_no": "FL 710",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "07:10",
+     "duration_min": 150
+    }
+   ],
+   "fares": []
+  },
+  {
+   "id": "FL0925",
+   "carrier": "FL",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "FL 925",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "09:25",
+     "duration_min": 150
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 214.0,
+     "taxes_fees": 41.3,
+     "seats_left": 6,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 312.0,
+     "taxes_fees": 48.7,
+     "seats_left": 3,
+     "seat_selection": true,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "premium",
+     "base": 489.0,
+     "taxes_fees": 61.1,
+     "seats_left": 4,
+     "seat_selection": true,
+     "aisle_seats_left": 2
+    },
+    {
+     "class": "first",
+     "base": 720.0,
+     "taxes_fees": 78.0,
+     "seats_left": 2,
+     "seat_selection": true,
+     "aisle_seats_left": 2
+    }
+   ]
+  },
+  {
+   "id": "FL1015",
+   "carrier": "FL",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "FL 1015",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "10:15",
+     "duration_min": 150
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 198.0,
+     "taxes_fees": 40.1,
+     "seats_left": 8,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 276.0,
+     "taxes_fees": 46.3,
+     "seats_left": 5,
+     "seat_selection": true,
+     "aisle_seats_left": 2
+    },
+    {
+     "class": "premium",
+     "base": 451.0,
+     "taxes_fees": 58.4,
+     "seats_left": 3,
+     "seat_selection": true,
+     "aisle_seats_left": 1
+    }
+   ]
+  },
+  {
+   "id": "FL1240",
+   "carrier": "FL",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "FL 1240",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "12:40",
+     "duration_min": 150
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 169.0,
+     "taxes_fees": 38.2,
+     "seats_left": 12,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 199.0,
+     "taxes_fees": 42.0,
+     "seats_left": 9,
+     "seat_selection": true,
+     "aisle_seats_left": 4
+    }
+   ]
+  },
+  {
+   "id": "FL1530",
+   "carrier": "FL",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "FL 1530",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "15:30",
+     "duration_min": 150
+    }
+   ],
+   "fares": [
+    {
+     "class": "main",
+     "base": 188.0,
+     "taxes_fees": 41.2,
+     "seats_left": 11,
+     "seat_selection": true,
+     "aisle_seats_left": 5
+    }
+   ]
+  },
+  {
+   "id": "SW0700",
+   "carrier": "SW",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "SW 700",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "07:00",
+     "duration_min": 155
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 203.0,
+     "taxes_fees": 39.4,
+     "seats_left": 2,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 366.0,
+     "taxes_fees": 50.8,
+     "seats_left": 2,
+     "seat_selection": true,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "premium",
+     "base": 612.0,
+     "taxes_fees": 71.4,
+     "seats_left": 3,
+     "seat_selection": true,
+     "aisle_seats_left": 3
+    }
+   ]
+  },
+  {
+   "id": "SW0840",
+   "carrier": "SW",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "SW 840",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "08:40",
+     "duration_min": 155
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 178.0,
+     "taxes_fees": 36.0,
+     "seats_left": 5,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 402.0,
+     "taxes_fees": 52.0,
+     "seats_left": 4,
+     "seat_selection": true,
+     "aisle_seats_left": 0
+    }
+   ]
+  },
+  {
+   "id": "SW1310",
+   "carrier": "SW",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "SW 1310",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "13:10",
+     "duration_min": 155
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 158.0,
+     "taxes_fees": 35.1,
+     "seats_left": 9,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 244.0,
+     "taxes_fees": 44.6,
+     "seats_left": 7,
+     "seat_selection": true,
+     "aisle_seats_left": 3
+    }
+   ]
+  },
+  {
+   "id": "MR0555",
+   "carrier": "MR",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "MR 555",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "05:55",
+     "duration_min": 145
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 171.0,
+     "taxes_fees": 37.1,
+     "seats_left": 7,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 241.0,
+     "taxes_fees": 44.0,
+     "seats_left": 6,
+     "seat_selection": true,
+     "aisle_seats_left": 4
+    }
+   ]
+  },
+  {
+   "id": "MR1105",
+   "carrier": "MR",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "MR 1105",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "11:05",
+     "duration_min": 145
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 162.0,
+     "taxes_fees": 36.4,
+     "seats_left": 10,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 229.0,
+     "taxes_fees": 43.8,
+     "seats_left": 8,
+     "seat_selection": true,
+     "aisle_seats_left": 5
+    }
+   ]
+  },
+  {
+   "id": "MR1600",
+   "carrier": "MR",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "MR 1600",
+     "from": "DEN",
+     "to": "ORD",
+     "dep": "16:00",
+     "duration_min": 145
+    }
+   ],
+   "fares": [
+    {
+     "class": "main",
+     "base": 176.0,
+     "taxes_fees": 39.9,
+     "seats_left": 14,
+     "seat_selection": true,
+     "aisle_seats_left": 6
+    }
+   ]
+  },
+  {
+   "id": "MR0730-DFW",
+   "carrier": "MR",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "MR 730",
+     "from": "DEN",
+     "to": "DFW",
+     "dep": "07:30",
+     "duration_min": 130
+    },
+    {
+     "flight_no": "MR 2214",
+     "from": "DFW",
+     "to": "ORD",
+     "dep": "12:35",
+     "duration_min": 145
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 149.0,
+     "taxes_fees": 49.0,
+     "seats_left": 9,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 198.0,
+     "taxes_fees": 52.6,
+     "seats_left": 6,
+     "seat_selection": true,
+     "aisle_seats_left": 3
+    }
+   ]
+  },
+  {
+   "id": "SW0650-MSP",
+   "carrier": "SW",
+   "status": "scheduled",
+   "legs": [
+    {
+     "flight_no": "SW 650",
+     "from": "DEN",
+     "to": "MSP",
+     "dep": "06:50",
+     "duration_min": 140
+    },
+    {
+     "flight_no": "SW 1188",
+     "from": "MSP",
+     "to": "ORD",
+     "dep": "11:20",
+     "duration_min": 85
+    }
+   ],
+   "fares": [
+    {
+     "class": "basic",
+     "base": 221.0,
+     "taxes_fees": 47.2,
+     "seats_left": 4,
+     "seat_selection": false,
+     "aisle_seats_left": 0
+    },
+    {
+     "class": "main",
+     "base": 388.0,
+     "taxes_fees": 50.0,
+     "seats_left": 5,
+     "seat_selection": true,
+     "aisle_seats_left": 3
+    }
+   ]
+  }
+ ]
+}

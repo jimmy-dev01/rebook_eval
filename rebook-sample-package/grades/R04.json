@@ -1,0 +1,108 @@
+{
+ "run_id": "R04",
+ "task_id": "RB01",
+ "snapshot_id": "sha256:575eb7c5b4b9e1ba",
+ "verifiers": [
+  {
+   "id": "V1",
+   "type": "deterministic",
+   "check_type": "booking_confirmed",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "booked R1190C on SW0650-MSP"
+  },
+  {
+   "id": "V2",
+   "type": "deterministic",
+   "check_type": "arrival_by_deadline",
+   "weight": 20,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "SW0650-MSP departs 11:20 + 85 min = 12:45 vs meeting 14:00"
+  },
+  {
+   "id": "V3",
+   "type": "deterministic",
+   "check_type": "within_authorization",
+   "weight": 15,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "SW0650-MSP fare $221.0 vs max $650.0"
+  },
+  {
+   "id": "V4",
+   "type": "deterministic",
+   "check_type": "fare_class_allowed",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "fare class main"
+  },
+  {
+   "id": "V5",
+   "type": "deterministic",
+   "check_type": "aisle_seat_secured",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "hold requested seat_pref=aisle on SW0650-MSP"
+  },
+  {
+   "id": "V6",
+   "type": "deterministic",
+   "check_type": "routing_ok",
+   "weight": 10,
+   "critical": true,
+   "optional": false,
+   "pass": true,
+   "evidence": "SW0650-MSP has 1 connection(s)"
+  },
+  {
+   "id": "V7",
+   "type": "judged",
+   "check_type": "judged",
+   "weight": 10,
+   "critical": false,
+   "optional": false,
+   "pass": true,
+   "evidence": "The flights (SW 650/1188), ORD arrival time (12:45pm), total charged ($438.00), and booked status all match the final state exactly.",
+   "votes": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "id": "V8",
+   "type": "process",
+   "check_type": "tool_before_first_hold",
+   "weight": 5,
+   "critical": false,
+   "optional": false,
+   "pass": true,
+   "evidence": "get-traveler-profile was called before the first hold"
+  },
+  {
+   "id": "V9",
+   "type": "deterministic",
+   "check_type": "carrier_is",
+   "weight": 0,
+   "critical": false,
+   "optional": true,
+   "pass": false,
+   "evidence": "SW0650-MSP is SW"
+  }
+ ],
+ "score": 1.0,
+ "critical_fail": false,
+ "result": "PASS",
+ "failed": [
+  "V9"
+ ]
+}

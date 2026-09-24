@@ -1,0 +1,28 @@
+# Python / local env
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets — never commit keys
+.env
+.env.*
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Regenerated grader dumps (human reports *.md stay tracked)
+reports/grades/
+reports/grades-*/
+reports/*.json
+reports/**/*.run.json

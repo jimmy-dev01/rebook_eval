@@ -1,0 +1,15 @@
+# Agent image: intentionally does NOT copy rebook/ or rebook-sample-package/.
+# It ships one stdlib-only file. This container has no local path to the
+# fixture, task, policy, or grader/verifier source — the only way it can
+# act is the HTTP calls agent_client.py makes to the evaluator service.
+FROM python:3.12-slim
+
+WORKDIR /app
+COPY docker/agent_client.py .
+
+RUN useradd --create-home --uid 10002 agent \
+    && chown -R agent:agent /app
+USER agent
+
+ENTRYPOINT ["python", "agent_client.py"]
+CMD ["--base-url", "http://evaluator:8000", "--demo"]
