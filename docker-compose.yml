@@ -3,20 +3,26 @@
 #   evaluator  — has fixture.json, task.json, policy.md, and rebook/grader.
 #                Not published to the host (no `ports:`), only reachable by
 #                the agent service over the internal `rb01` network.
+#                Build args + env_file ingest keys from `.env` (see .env.example).
 #   agent      — has only docker/agent_client.py. No fixture, no task, no
-#                grader on this image at all; it can only act through the
-#                evaluator's HTTP API.
+#                grader, and no API keys on this image; it can only act through
+#                the evaluator's HTTP API.
 #
-# Run: docker compose up --build
-# The agent container plays the reference booking and exits; watch its
-# logs to see the round trip, then check evaluator logs (empty stdout by
-# design — see rebook/server.py's log_message override) to confirm no
-# grading secret was ever printed or returned.
+# Prerequisites: copy `.env.example` → `.env` (make env does this).
+# Run: make docker-demo   # or: docker compose up --build
 services:
   evaluator:
     build:
       context: .
       dockerfile: docker/Dockerfile.evaluator
+      args:
+        OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+        REBOOK_JUDGE_MODEL: ${REBOOK_JUDGE_MODEL:-openai/gpt-4o-mini}
+    env_file:
+      - .env
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      REBOOK_JUDGE_MODEL: ${REBOOK_JUDGE_MODEL:-openai/gpt-4o-mini}
     networks: [rb01]
     expose: ["8000"]  # internal only; intentionally no `ports:` mapping
 
@@ -26,9 +32,9 @@ services:
       dockerfile: docker/Dockerfile.agent
     networks: [rb01]
     depends_on: [evaluator]
-    # No `volumes:` — the agent container cannot mount the repo, the
-    # fixture, or the grader. Its filesystem is exactly what was COPYed
-    # into Dockerfile.agent: one file.
+    # No `volumes:` and no env_file — the agent container cannot mount the
+    # repo or receive grading secrets. Its filesystem is exactly what was
+    # COPYed into Dockerfile.agent: one file.
 
 networks:
   rb01:

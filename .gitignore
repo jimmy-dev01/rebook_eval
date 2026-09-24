@@ -12,17 +12,15 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Secrets — never commit keys
 .env
 .env.*
+!.env.example
 
 # OS / IDE
 .DS_Store
 .idea/
 .vscode/
 
-# Regenerated grader dumps (human reports *.md stay tracked)
-reports/grades/
-reports/grades-*/
-reports/*.json
-reports/**/*.run.json
+PROJECT-REFERENCE.md
+
+reports/

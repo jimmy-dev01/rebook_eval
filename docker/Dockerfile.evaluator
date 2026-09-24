@@ -2,7 +2,17 @@
 # grader/verifiers) and serves the eight tools over HTTP. Nothing in this
 # image is copied into Dockerfile.agent — that separation is the privacy
 # boundary the client asked for, not just a network firewall rule.
+#
+# Keys from `.env` are passed as build args (see docker-compose.yml) so the
+# evaluator process can run V7 if OPENROUTER_API_KEY is set. The agent image
+# never receives these args.
 FROM python:3.12-slim
+
+ARG OPENROUTER_API_KEY=
+ARG REBOOK_JUDGE_MODEL=openai/gpt-4o-mini
+
+ENV OPENROUTER_API_KEY=${OPENROUTER_API_KEY} \
+    REBOOK_JUDGE_MODEL=${REBOOK_JUDGE_MODEL}
 
 WORKDIR /app
 

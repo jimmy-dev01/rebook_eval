@@ -3,9 +3,30 @@ PY ?= python3
 VENV := .venv
 BIN := $(VENV)/bin
 
-.PHONY: check setup setup-gym test test-gym test-naive run replay grade grade-judge regrade regrade-judge model-compare v7-confusion adversarial-audit policy-ranking batch-report reward-quality docker-build docker-demo docker-down clean
+# Load committed defaults from .env when present (never commit secrets).
+ifneq (,$(wildcard .env))
+  include .env
+  export
+endif
 
-# One-command verify: create .venv, install deps, run the full suite.
+.PHONY: env check setup setup-gym test test-gym test-naive run replay grade grade-judge regrade regrade-judge model-compare v7-confusion adversarial-audit policy-ranking batch-report reward-quality docker-build docker-demo docker-down clean
+
+# ------------------------------------------------------------------
+# 1) Configure secrets / keys (do this before V7 or Docker)
+# ------------------------------------------------------------------
+env: .env
+
+.env: .env.example
+	@if [ ! -f .env ]; then \
+		cp .env.example .env; \
+		echo "Created .env from .env.example — edit OPENROUTER_API_KEY (and optional REBOOK_JUDGE_MODEL) before V7 / Docker."; \
+	else \
+		echo ".env already exists"; \
+	fi
+
+# ------------------------------------------------------------------
+# 2) One-command verify
+# ------------------------------------------------------------------
 check: setup test
 
 setup: $(BIN)/pytest
@@ -40,19 +61,21 @@ replay: setup
 grade: setup
 	$(BIN)/python -m rebook.grader.cli
 
-grade-judge: setup
+grade-judge: setup env
+	@test -n "$$OPENROUTER_API_KEY" || (echo "Set OPENROUTER_API_KEY in .env (see .env.example), then retry." && exit 1)
 	$(BIN)/python -m rebook.grader.cli --judge
 
 regrade: setup
 	$(BIN)/python -c "from rebook.grader.regrade import main; main()"
 
-regrade-judge: setup
+regrade-judge: setup env
+	@test -n "$$OPENROUTER_API_KEY" || (echo "Set OPENROUTER_API_KEY in .env (see .env.example), then retry." && exit 1)
 	$(BIN)/python -c "from rebook.grader.regrade import main; main()" --judge
 
 # Regrades R01-R06 with V7 under three judge models, then refreshes V7 confusion.
-# Requires OPENROUTER_API_KEY; real API calls.
-model-compare: setup
-	@test -n "$$OPENROUTER_API_KEY" || (echo "export OPENROUTER_API_KEY first" && exit 1)
+# Requires OPENROUTER_API_KEY in .env; real API calls.
+model-compare: setup env
+	@test -n "$$OPENROUTER_API_KEY" || (echo "Set OPENROUTER_API_KEY in .env first" && exit 1)
 	$(BIN)/python -c "from rebook.grader.regrade import main; main()" --judge --model anthropic/claude-sonnet-5
 	$(BIN)/python -c "from rebook.grader.regrade import main; main()" --judge --model anthropic/claude-opus-5.5
 	$(BIN)/python -c "from rebook.grader.regrade import main; main()" --judge --model openai/gpt-4o-mini
@@ -75,7 +98,10 @@ batch-report: setup
 # Full reward-quality pack: adversarial audit + policy ranking + batch report.
 reward-quality: batch-report
 
-docker-build:
+# ------------------------------------------------------------------
+# Docker — requires .env (keys ingested as build args into evaluator only)
+# ------------------------------------------------------------------
+docker-build: env
 	docker compose build
 
 docker-demo: docker-build
